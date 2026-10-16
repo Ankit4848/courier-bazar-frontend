@@ -1,0 +1,50 @@
+<svg viewBox="0 0 820 700" width="820" height="700" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A live package tracking timeline moving from pickup to delivery over a map with route pins">
+  <defs>
+    <linearGradient id="tbg" x1="0" y1="0" x2="820" y2="700" gradientUnits="userSpaceOnUse"><stop stop-color="#f7f3ea"></stop><stop offset="1" stop-color="#efe9db"></stop></linearGradient>
+    <linearGradient id="tb" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2a251c"></stop><stop offset="1" stop-color="#6b5c45"></stop></linearGradient>
+    <linearGradient id="tm" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6f8a5f"></stop><stop offset="1" stop-color="#4f7a53"></stop></linearGradient>
+    <filter id="tsh" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="22" flood-color="#2a2416" flood-opacity="0.16"></feDropShadow></filter>
+  </defs>
+  <rect width="820" height="700" rx="28" fill="url(#tbg)"></rect>
+
+  
+  <g stroke="#6b5c45" stroke-width="1" opacity="0.10">
+    <path d="M60 160 H760 M60 260 H760 M60 360 H760 M60 460 H760 M60 560 H760"></path>
+    <path d="M160 90 V620 M300 90 V620 M440 90 V620 M580 90 V620 M700 90 V620"></path>
+  </g>
+  <circle cx="150" cy="150" r="130" fill="#16130d" opacity="0.07"></circle>
+  <circle cx="690" cy="560" r="150" fill="#4f7a53" opacity="0.07"></circle>
+
+  
+  <path d="M140 520 C 240 420, 220 300, 340 280 C 460 260, 470 170, 600 170" stroke="url(#tb)" stroke-width="5" stroke-linecap="round" stroke-dasharray="1 16" opacity="0.65"></path>
+
+  
+  <g filter="url(#tsh)">
+    <circle cx="140" cy="520" r="20" fill="#fff"></circle><circle cx="140" cy="520" r="9" fill="url(#tb)"></circle>
+    <circle cx="340" cy="280" r="20" fill="#fff"></circle><circle cx="340" cy="280" r="9" fill="url(#tb)"></circle>
+    <circle cx="600" cy="170" r="24" fill="#fff"></circle><circle cx="600" cy="170" r="11" fill="url(#tm)"></circle>
+    <path d="M594 170 l4 4 l8 -9" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+  </g>
+
+  
+  <g filter="url(#tsh)" transform="translate(300 250)">
+    <rect x="-30" y="-26" width="60" height="52" rx="10" fill="#fff"></rect>
+    <path d="M-20 -6 h40 v22 a5 5 0 0 1 -5 5 h-30 a5 5 0 0 1 -5 -5 z" fill="url(#tb)"></path>
+    <path d="M-20 -6 l20 -12 l20 12 v3 h-40 z" fill="#16130d"></path>
+  </g>
+
+  
+  <g filter="url(#tsh)">
+    <rect x="430" y="360" width="330" height="250" rx="20" fill="#fff"></rect>
+  </g>
+  <rect x="456" y="386" width="60" height="22" rx="11" fill="#eef1e6"></rect>
+  <rect x="466" y="393" width="40" height="8" rx="4" fill="#4f7a53"></rect>
+  <rect x="456" y="422" width="180" height="12" rx="6" fill="#16130d" opacity="0.85"></rect>
+  
+  <g>
+    <line x1="470" y1="470" x2="470" y2="576" stroke="#ecebf5" stroke-width="3"></line>
+    <circle cx="470" cy="474" r="8" fill="url(#tm)"></circle><rect x="490" y="468" width="150" height="9" rx="4.5" fill="#16130d" opacity="0.7"></rect><rect x="490" y="483" width="90" height="7" rx="3.5" fill="#8d8ba6" opacity="0.6"></rect>
+    <circle cx="470" cy="522" r="8" fill="url(#tb)"></circle><rect x="490" y="516" width="130" height="9" rx="4.5" fill="#16130d" opacity="0.7"></rect><rect x="490" y="531" width="80" height="7" rx="3.5" fill="#8d8ba6" opacity="0.6"></rect>
+    <circle cx="470" cy="570" r="8" fill="#e0ddf2"></circle><rect x="490" y="564" width="110" height="9" rx="4.5" fill="#8d8ba6" opacity="0.5"></rect>
+  </g>
+</svg>

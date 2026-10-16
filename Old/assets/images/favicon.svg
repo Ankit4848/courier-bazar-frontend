@@ -1,0 +1,9 @@
+<svg viewBox="0 0 64 64" width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#16130d"></stop><stop offset="1" stop-color="#6b5c45"></stop>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="18" fill="url(#g)"></rect>
+  <text x="32" y="43" font-family="Space Grotesk, Arial, sans-serif" font-size="30" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="-1">CB</text>
+</svg>

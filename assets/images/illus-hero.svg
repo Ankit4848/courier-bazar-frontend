@@ -1,0 +1,69 @@
+<svg viewBox="0 0 820 700" width="820" height="700" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A shipping dashboard comparing courier rates and delivery times with the cheapest option highlighted">
+  <defs>
+    <linearGradient id="hbg" x1="0" y1="0" x2="820" y2="700" gradientUnits="userSpaceOnUse"><stop stop-color="#f7f3ea"></stop><stop offset="1" stop-color="#efe9db"></stop></linearGradient>
+    <linearGradient id="brand" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#2a251c"></stop><stop offset="1" stop-color="#6b5c45"></stop></linearGradient>
+    <linearGradient id="mint" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#6f8a5f"></stop><stop offset="1" stop-color="#4f7a53"></stop></linearGradient>
+    <filter id="sh" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#2a2416" flood-opacity="0.18"></feDropShadow></filter>
+    <filter id="sh2" x="-40%" y="-40%" width="180%" height="180%"><feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#2a2416" flood-opacity="0.16"></feDropShadow></filter>
+  </defs>
+
+  <rect width="820" height="700" rx="28" fill="url(#hbg)"></rect>
+  <circle cx="150" cy="120" r="150" fill="#16130d" opacity="0.08"></circle>
+  <circle cx="690" cy="590" r="170" fill="#6b5c45" opacity="0.08"></circle>
+
+  
+  <path d="M120 120 C 280 60, 540 180, 700 110" stroke="#16130d" stroke-width="3" stroke-dasharray="2 12" stroke-linecap="round" opacity="0.5"></path>
+  <g filter="url(#sh2)">
+    <circle cx="120" cy="120" r="16" fill="#fff"></circle><circle cx="120" cy="120" r="7" fill="url(#brand)"></circle>
+    <circle cx="700" cy="110" r="16" fill="#fff"></circle><circle cx="700" cy="110" r="7" fill="url(#mint)"></circle>
+  </g>
+
+  
+  <g filter="url(#sh)">
+    <rect x="150" y="176" width="520" height="392" rx="22" fill="#ffffff"></rect>
+  </g>
+  
+  <rect x="150" y="176" width="520" height="66" rx="22" fill="#ffffff"></rect>
+  <circle cx="184" cy="209" r="6" fill="#e0ddf2"></circle><circle cx="204" cy="209" r="6" fill="#e0ddf2"></circle><circle cx="224" cy="209" r="6" fill="#e0ddf2"></circle>
+  <rect x="270" y="200" width="180" height="12" rx="6" fill="#16130d" opacity="0.85"></rect>
+  <rect x="150" y="242" width="520" height="1.5" fill="#ecebf5"></rect>
+
+  
+  
+  <rect x="176" y="266" width="468" height="66" rx="14" fill="#f7f6fd"></rect>
+  <rect x="196" y="288" width="34" height="22" rx="6" fill="url(#brand)"></rect>
+  <rect x="246" y="286" width="120" height="11" rx="5.5" fill="#16130d" opacity="0.8"></rect>
+  <rect x="246" y="304" width="80" height="8" rx="4" fill="#8d8ba6" opacity="0.7"></rect>
+  <rect x="470" y="290" width="70" height="16" rx="6" fill="#16130d" opacity="0.85"></rect>
+  <rect x="560" y="286" width="64" height="26" rx="13" fill="#ecebf5"></rect>
+
+  
+  <rect x="176" y="344" width="468" height="72" rx="14" fill="#eef1e6" stroke="#4f7a53" stroke-width="2"></rect>
+  <rect x="196" y="368" width="34" height="24" rx="6" fill="url(#mint)"></rect>
+  <rect x="246" y="366" width="130" height="11" rx="5.5" fill="#16130d" opacity="0.85"></rect>
+  <rect x="246" y="384" width="92" height="8" rx="4" fill="#3f6343" opacity="0.8"></rect>
+  <circle cx="454" cy="380" r="12" fill="url(#mint)"></circle><path d="M449 380 l4 4 l7 -8" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+  <rect x="474" y="372" width="70" height="16" rx="6" fill="#3f6343"></rect>
+  <rect x="560" y="367" width="64" height="28" rx="14" fill="url(#brand)"></rect>
+  <rect x="576" y="377" width="32" height="8" rx="4" fill="#fff"></rect>
+
+  
+  <rect x="176" y="428" width="468" height="66" rx="14" fill="#f7f6fd"></rect>
+  <rect x="196" y="450" width="34" height="22" rx="6" fill="#6b5c45"></rect>
+  <rect x="246" y="448" width="110" height="11" rx="5.5" fill="#16130d" opacity="0.8"></rect>
+  <rect x="246" y="466" width="76" height="8" rx="4" fill="#8d8ba6" opacity="0.7"></rect>
+  <rect x="470" y="452" width="70" height="16" rx="6" fill="#16130d" opacity="0.85"></rect>
+  <rect x="560" y="448" width="64" height="26" rx="13" fill="#ecebf5"></rect>
+
+  
+  <rect x="176" y="516" width="230" height="10" rx="5" fill="#8d8ba6" opacity="0.4"></rect>
+
+  
+  <g filter="url(#sh2)">
+    <rect x="612" y="300" width="120" height="104" rx="16" fill="#fff"></rect>
+    <rect x="612" y="300" width="120" height="104" rx="16" fill="url(#brand)" opacity="0.12"></rect>
+    <path d="M632 336 h80 v46 a6 6 0 0 1 -6 6 h-68 a6 6 0 0 1 -6 -6 z" fill="url(#brand)"></path>
+    <path d="M632 336 l40 -20 l40 20 v6 h-80 z" fill="#16130d"></path>
+    <rect x="666" y="336" width="12" height="52" fill="#fff" opacity="0.5"></rect>
+  </g>
+</svg>
