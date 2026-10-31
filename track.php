@@ -23,7 +23,7 @@ include 'upload/header.php';
           <form id="pageTrackForm" class="hero-track-form d-flex gap-2 flex-wrap flex-sm-nowrap align-items-center mx-auto mb-3" style="max-width: 40rem;">
             <div class="track-input-group flex-fill">
               <i class="bi bi-search track-icon"></i>
-              <input id="pageTrackInput" type="text" class="form-control-ssa" placeholder="Enter AWB or Order ID" value="<?php echo isset($_GET['awb']) ? htmlspecialchars($_GET['awb']) : ''; ?>" required>
+              <input id="pageTrackInput" type="text" class="form-control-ssa" placeholder="Enter one or more AWB / Order IDs" value="<?php echo isset($_GET['awb']) ? htmlspecialchars($_GET['awb']) : ''; ?>" required>
             </div>
             <button type="submit" class="btn-ssa-primary text-nowrap">
               <span>Track Order</span>
@@ -33,6 +33,7 @@ include 'upload/header.php';
 
           <div class="d-flex flex-wrap align-items-center justify-content-center gap-3 text-muted small">
             <span><i class="bi bi-shield-check text-mint me-1"></i> Live Real-Time Updates</span>
+            <span><i class="bi bi-list-check text-brand me-1"></i> Up to 10 AWBs, comma separated</span>
             <span><i class="bi bi-lightning-charge-fill text-amber me-1"></i> 25+ Courier Integrations</span>
           </div>
         </div>

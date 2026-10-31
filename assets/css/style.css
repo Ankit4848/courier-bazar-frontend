@@ -667,6 +667,17 @@ a:hover {
   transform: translateY(0) scale(0.98);
 }
 
+/* Green variant, used for delivered-shipment actions (proof of delivery). */
+.btn-ssa-primary.btn-ssa-success {
+  background: var(--mint);
+  box-shadow: 0 8px 20px rgba(79, 122, 83, 0.28);
+}
+
+.btn-ssa-primary.btn-ssa-success:hover {
+  background: var(--mint-600);
+  box-shadow: 0 14px 28px rgba(79, 122, 83, 0.38);
+}
+
 .track-hint-list {
   display: flex;
   align-items: center;
@@ -2445,6 +2456,42 @@ a:hover {
   background: rgba(107, 92, 69, 0.12);
   color: var(--blue);
   border: 1px solid rgba(107, 92, 69, 0.25);
+}
+
+/* Multiple AWB search: one summary row per shipment */
+.multi-track-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.multi-track-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.9rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.multi-track-main {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.multi-track-awb {
+  font-size: 1rem;
+  word-break: break-all;
+}
+
+.multi-track-side {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .status-pill .pulse-dot {

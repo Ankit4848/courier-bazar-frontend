@@ -184,7 +184,7 @@
         '  <div class="d-flex flex-wrap gap-2">' +
         podDocs.map(function (doc) {
           var icon = /signature/i.test(doc.label || '') ? 'bi-pen' : 'bi-file-earmark-text';
-          return '<a href="' + escapeHtml(doc.url) + '" target="_blank" rel="noopener noreferrer" class="btn-ssa-primary">' +
+          return '<a href="' + escapeHtml(doc.url) + '" target="_blank" rel="noopener noreferrer" class="btn-ssa-primary btn-ssa-success">' +
             '<i class="bi ' + icon + '"></i><span>' + escapeHtml(doc.label || 'Proof of Delivery') + '</span></a>';
         }).join('') +
         '  </div>' +
@@ -279,15 +279,141 @@
     }
   }
 
-  // Open Global Modal and load AWB
-  function openModalWithAWB(awb) {
-    if (!awb) return;
+  // ---------------- Multiple AWB search ----------------
+  var MAX_AWBS = 10;
+
+  // "A, B C" / one per line -> ["A", "B", "C"]: duplicates dropped, at most MAX_AWBS.
+  function pickAwbs(raw) {
+    var seen = {};
+    var awbs = String(raw || '').split(/[\s,;]+/).filter(function (awb) {
+      var key = awb.toUpperCase();
+      if (!awb || seen[key]) return false;
+      seen[key] = true;
+      return true;
+    });
+    if (awbs.length > MAX_AWBS) {
+      showCopyToast('Showing the first ' + MAX_AWBS + ' of ' + awbs.length + ' AWB numbers.');
+    }
+    return awbs.slice(0, MAX_AWBS);
+  }
+
+  // Marks the search currently shown in a container, so a slower, older lookup
+  // cannot overwrite the results of a newer one.
+  function startTrackingRun(container) {
+    var run = String(Date.now()) + Math.random();
+    container.setAttribute('data-track-run', run);
+    return run;
+  }
+
+  // A text input drops line breaks on paste, which would glue a pasted column of
+  // AWBs into one number; join the lines with commas instead.
+  function allowMultiLinePaste(input) {
+    if (!input) return;
+    input.addEventListener('paste', function (e) {
+      var text = e.clipboardData ? e.clipboardData.getData('text') : '';
+      if (!/[\r\n]/.test(text)) return;
+      e.preventDefault();
+      var joined = text.split(/[\r\n]+/).map(function (v) { return v.trim(); }).filter(Boolean).join(', ');
+      if (typeof input.setRangeText === 'function') {
+        input.setRangeText(joined, input.selectionStart, input.selectionEnd, 'end');
+      } else {
+        input.value += joined;
+      }
+    });
+  }
+
+  // Tracks several AWBs at once: one summary row per shipment, filled in as each
+  // lookup returns. "View Details" opens the full tracking view for that shipment.
+  function trackMultiple(awbs, container) {
+    var run = startTrackingRun(container);
+    var results = [];
+
+    function rowHtml(i) {
+      var awb = awbs[i];
+      var res = results[i];
+      var info;
+      var side = '';
+
+      if (!res) {
+        info = '<div class="text-muted small mt-1"><span class="spinner-border spinner-border-sm text-brand me-2" role="status"></span>Fetching live status...</div>';
+      } else if (!res.success || !res.found || !res.data) {
+        info = '<div class="text-muted small mt-1"><i class="bi bi-exclamation-triangle text-warning me-1"></i>' + escapeHtml(res.message || 'Tracking details not found.') + '</div>';
+      } else {
+        var d = res.data;
+        var latest = (d.activities || [])[0];
+        awb = d.awb || awb;
+        info = '<div class="text-muted small mt-1"><i class="bi ' + escapeHtml(d.courierIcon || 'bi-truck') + ' me-1"></i>' + escapeHtml(d.courier) + '</div>' +
+          (latest ? '<div class="small text-ink mt-1">' + escapeHtml(latest.title) + ' <span class="text-muted">&middot; ' + escapeHtml(latest.time) + '</span></div>' : '');
+        side = '' +
+          '<div class="multi-track-side">' +
+          '  <span class="status-pill status-' + escapeHtml(d.statusCode || 'in-transit') + '"><span class="pulse-dot"></span>' + escapeHtml(d.status) + '</span>' +
+          '  <button type="button" class="btn btn-sm btn-outline-dark rounded-pill px-3" data-view-index="' + i + '">View Details<i class="bi bi-arrow-right ms-1"></i></button>' +
+          '</div>';
+      }
+
+      return '' +
+        '<div class="multi-track-main">' +
+        '  <div class="multi-track-awb font-monospace fw-bold text-ink">' + escapeHtml(awb) + '</div>' +
+        '  ' + info +
+        '</div>' + side;
+    }
+
+    function showList() {
+      var rows = awbs.map(function (awb, i) {
+        return '<div class="multi-track-row" data-index="' + i + '">' + rowHtml(i) + '</div>';
+      }).join('');
+
+      container.innerHTML = '' +
+        '<div class="bg-white p-3 p-md-4 rounded-4 border shadow-sm">' +
+        '  <h5 class="h6 text-uppercase fw-bold text-muted mb-3" style="letter-spacing:0.06em;">' +
+        '    <i class="bi bi-boxes me-1 text-brand"></i> Tracking ' + awbs.length + ' Shipments' +
+        '  </h5>' +
+        '  <div class="multi-track-list">' + rows + '</div>' +
+        '</div>';
+      container.scrollTop = 0;
+    }
+
+    function showDetails(i) {
+      renderTrackingDetails(results[i], container, awbs[i]);
+      container.insertAdjacentHTML('afterbegin',
+        '<button type="button" class="btn btn-sm btn-light border rounded-pill px-3 mb-3" data-multi-back>' +
+        '<i class="bi bi-arrow-left me-1"></i>All shipments (' + awbs.length + ')</button>');
+      container.scrollTop = 0;
+    }
+
+    // Assigned (not added) so a later search replaces this handler instead of stacking.
+    container.onclick = function (e) {
+      if (container.getAttribute('data-track-run') !== run) return;
+      var viewBtn = e.target.closest('[data-view-index]');
+      if (viewBtn) {
+        showDetails(parseInt(viewBtn.getAttribute('data-view-index'), 10));
+      } else if (e.target.closest('[data-multi-back]')) {
+        showList();
+      }
+    };
+
+    showList();
+    awbs.forEach(function (awb, i) {
+      fetchTrackingData(awb, function (resData) {
+        if (container.getAttribute('data-track-run') !== run) return;
+        results[i] = resData;
+        var row = container.querySelector('.multi-track-row[data-index="' + i + '"]');
+        if (row) row.innerHTML = rowHtml(i);
+      });
+    });
+  }
+
+  // Open Global Modal and load one or more AWBs
+  function openModalWithAWB(rawAwb) {
+    var awbs = pickAwbs(rawAwb);
+    if (!awbs.length) return;
+    var awb = awbs[0];
     var trackingModalEl = document.getElementById("trackingModal");
     var modalBody = document.getElementById("trackingModalContent");
     var fullPageBtn = document.getElementById("modalFullPageBtn");
 
     if (fullPageBtn) {
-      fullPageBtn.href = "track.php?awb=" + encodeURIComponent(awb);
+      fullPageBtn.href = "track.php?awb=" + encodeURIComponent(awbs.join(','));
     }
 
     if (modalBody) {
@@ -296,7 +422,7 @@
         '<div class="text-center py-5">' +
         '  <div class="spinner-border text-brand mb-3" style="width: 3rem; height: 3rem;" role="status"></div>' +
         '  <h5 class="h6 fw-bold text-ink mb-1">Connecting to Live Tracking Hub...</h5>' +
-        '  <p class="text-muted small mb-0 font-monospace">AWB: ' + awb + '</p>' +
+        '  <p class="text-muted small mb-0 font-monospace">AWB: ' + escapeHtml(awb) + '</p>' +
         '</div>';
     }
 
@@ -308,11 +434,18 @@
       }, 50);
     }
 
+    if (!modalBody) return;
+
+    if (awbs.length > 1) {
+      trackMultiple(awbs, modalBody);
+      return;
+    }
+
+    var run = startTrackingRun(modalBody);
     fetchTrackingData(awb, function (resData) {
-      if (modalBody) {
-        renderTrackingDetails(resData, modalBody, awb);
-        modalBody.scrollTop = 0;
-      }
+      if (modalBody.getAttribute('data-track-run') !== run) return;
+      renderTrackingDetails(resData, modalBody, awb);
+      modalBody.scrollTop = 0;
     });
   }
 
@@ -321,6 +454,8 @@
     // 1. Hero Tracking Form on Home / Landing page
     var heroTrackForm = document.getElementById("trackForm");
     var heroTrackInput = document.getElementById("trackInput");
+
+    allowMultiLinePaste(heroTrackInput);
 
     if (heroTrackForm) {
       heroTrackForm.addEventListener("submit", function (e) {
@@ -355,7 +490,11 @@
       var urlParams = new URLSearchParams(window.location.search);
       var awbParam = urlParams.get("awb") || "";
 
-      function loadPageTracking(awbVal) {
+      allowMultiLinePaste(pageTrackInput);
+
+      function loadPageTracking(rawVal) {
+        var awbs = pickAwbs(rawVal);
+        var awbVal = awbs[0] || "";
         if (!awbVal) {
           pageTrackResultContainer.innerHTML = '' +
             '<div class="bg-white p-4 p-md-5 rounded-4 border shadow-sm text-center">' +
@@ -372,15 +511,23 @@
           return;
         }
 
-        if (pageTrackInput) pageTrackInput.value = awbVal;
+        if (pageTrackInput) pageTrackInput.value = awbs.join(', ');
+
+        if (awbs.length > 1) {
+          trackMultiple(awbs, pageTrackResultContainer);
+          return;
+        }
+
         pageTrackResultContainer.innerHTML = '' +
           '<div class="bg-white p-5 rounded-4 border shadow-sm text-center">' +
           '  <div class="spinner-border text-brand mb-3" style="width: 3rem; height: 3rem;" role="status"></div>' +
           '  <h4 class="h5 fw-bold text-ink mb-1">Loading Live Shipment Details...</h4>' +
-          '  <p class="text-muted small mb-0 font-monospace">AWB: ' + awbVal + '</p>' +
+          '  <p class="text-muted small mb-0 font-monospace">AWB: ' + escapeHtml(awbVal) + '</p>' +
           '</div>';
 
+        var run = startTrackingRun(pageTrackResultContainer);
         fetchTrackingData(awbVal, function (resData) {
+          if (pageTrackResultContainer.getAttribute('data-track-run') !== run) return;
           renderTrackingDetails(resData, pageTrackResultContainer, awbVal);
         });
       }

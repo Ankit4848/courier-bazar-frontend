@@ -26,7 +26,7 @@ include 'upload/header.php';
             class="hero-track-form d-flex gap-2 flex-wrap flex-sm-nowrap align-items-center reveal in">
             <div class="track-input-group flex-fill">
               <i class="bi bi-search track-icon"></i>
-              <input id="trackInput" type="text" class="form-control-ssa" placeholder="Enter AWB or Order ID" required>
+              <input id="trackInput" type="text" class="form-control-ssa" placeholder="Enter one or more AWB / Order IDs" required>
             </div>
             <button type="submit" class="btn-ssa-primary text-nowrap">
               <span>Track Shipment</span>
@@ -38,6 +38,7 @@ include 'upload/header.php';
             <span class="badge-trust"><i class="bi bi-shield-check text-mint me-1 fs-6"></i> Live Tracking</span>
             <span class="badge-trust"><i class="bi bi-lightning-charge-fill text-amber me-1 fs-6"></i> 25+ Courier
               Partners</span>
+            <span class="badge-trust"><i class="bi bi-list-check text-brand me-1 fs-6"></i> Multiple AWBs, comma separated</span>
           </div>
 
           <div class="hero-stats">
